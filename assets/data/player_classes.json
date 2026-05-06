@@ -1,0 +1,7 @@
+[
+  {
+    "className": "default",
+    "texturePath": "textures/player_placeholder.png",
+    "regionName": "player_placeholder"
+  }
+]
