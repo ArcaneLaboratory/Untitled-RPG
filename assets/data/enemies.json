@@ -1,0 +1,12 @@
+[
+  {
+    "enemyName": "placeholder",
+    "regionName": "enemy_placeholder",
+    "startingStats": {
+      "SPEED": 4.0,
+      "HEALTH": 50
+    },
+    "sizeX": 1,
+    "sizeY": 1
+  }
+]

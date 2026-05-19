@@ -12,7 +12,7 @@ public class CameraSystem extends IteratingSystem {
     private OrthographicCamera camera;
     private ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
 
-    private float smoothing = 0.2f;
+    private float smoothing = 0.1f;
 
     public CameraSystem(OrthographicCamera camera){
         super(Family.all(PlayerComponent.class, TransformComponent.class).get());

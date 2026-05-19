@@ -8,6 +8,6 @@ public class PlayerTemplate {
     public String className;
     public String texturePath;
     public String regionName;
-    //public ObjectMap<StatType, Float> startingStats;
+    public ObjectMap<String, Float> startingStats;
     //public Array<String> startingItems;
 }

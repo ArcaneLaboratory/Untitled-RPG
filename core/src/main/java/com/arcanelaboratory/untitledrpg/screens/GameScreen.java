@@ -24,6 +24,7 @@ public class GameScreen implements Screen {
     private final EntityFactory FACTORY;
     private final MapManager MAP_MANAGER;
     private final TextureAtlas ATLAS;
+    //private final HUD HUD;
 
     private TiledMap map;
     private OrthogonalTiledMapRenderer otmp;
@@ -35,6 +36,7 @@ public class GameScreen implements Screen {
         this.VIEWPORT = new FitViewport(GlobalConstants.MAP_WIDTH_TILES, GlobalConstants.MAP_HEIGHT_TILES, CAMERA);
 
         this.MAP_MANAGER = new MapManager();
+        //this.HUD = new HUD(GAME.batch);
 
         this.ATLAS = GAME.assetManager.get("atlas/game_assets.atlas", TextureAtlas.class);
         this.FACTORY = new EntityFactory(ENGINE, GAME.library, ATLAS);
@@ -48,8 +50,11 @@ public class GameScreen implements Screen {
         ENGINE.addSystem(new CollisionSystem(MAP_MANAGER.getCollisionRects()));
         ENGINE.addSystem(new CameraSystem(CAMERA));
         ENGINE.addSystem(new RenderSystem(GAME.batch, CAMERA, otmp));
+        ENGINE.addSystem(new DebugRenderSystem(CAMERA, MAP_MANAGER));
+        ENGINE.addSystem(new HUDRenderSystem(GAME.batch));
 
-        FACTORY.createPlayer("default",5, 5);
+        ENGINE.addEntity(FACTORY.createPlayer("default",5, 5));
+        ENGINE.addEntity(FACTORY.createEnemy("placeholder", 10, 10));
     }
 
     @Override
@@ -68,12 +73,16 @@ public class GameScreen implements Screen {
 //        otmp.render();
         //update the engine's time by delta
         ENGINE.update(delta);
+
+        //GAME.batch.setProjectionMatrix(HUD.getStage().getCamera().combined);
+        //HUD.draw();
     }
 
     @Override
     public void dispose(){
         // clean up
         ENGINE.removeAllEntities();
+
     }
 
     @Override

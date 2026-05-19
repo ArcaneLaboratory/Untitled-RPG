@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="9">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="11">
  <tileset firstgid="1" source="Placeholder.tsx"/>
  <layer id="1" name="Tile Layer 1" width="40" height="40">
   <data encoding="csv">
@@ -47,7 +47,6 @@
  </layer>
  <objectgroup id="2" name="collisions">
   <object id="2" x="96" y="416" width="16" height="88"/>
-  <object id="3" x="-30.1008" y="40.8511"/>
   <object id="8" x="112" y="576" width="128" height="8"/>
  </objectgroup>
 </map>

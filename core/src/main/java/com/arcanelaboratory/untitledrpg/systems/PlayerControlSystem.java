@@ -1,6 +1,7 @@
 package com.arcanelaboratory.untitledrpg.systems;
 
 import com.arcanelaboratory.untitledrpg.components.PlayerComponent;
+import com.arcanelaboratory.untitledrpg.components.stats.StatType;
 import com.arcanelaboratory.untitledrpg.components.stats.StatsComponent;
 import com.arcanelaboratory.untitledrpg.components.VelocityComponent;
 import com.arcanelaboratory.untitledrpg.utils.MoveUtils;
@@ -24,8 +25,7 @@ public class PlayerControlSystem extends IteratingSystem {
         StatsComponent stats = sm.get(entity);
 
         // Get speed from our generalized StatType system
-        //float speed = stats.baseStats.get(StatType.SPEED);
-        float speed = 5;
+        float speed = stats.baseStats.get(StatType.SPEED);
 
         float moveX = 0;
         float moveY = 0;
