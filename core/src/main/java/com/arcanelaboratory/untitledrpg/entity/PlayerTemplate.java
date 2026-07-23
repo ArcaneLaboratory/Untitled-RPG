@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 public class PlayerTemplate {
     public String className;
-    public String texturePath;
     public String regionName;
     public ObjectMap<String, Float> startingStats;
     //public Array<String> startingItems;

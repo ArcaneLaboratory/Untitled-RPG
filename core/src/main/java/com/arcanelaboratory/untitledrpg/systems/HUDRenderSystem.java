@@ -47,7 +47,9 @@ public class HUDRenderSystem extends IteratingSystem {
         table.setFillParent(true);
 
         healthLabel = new Label("HP: " + health, new Label.LabelStyle(new BitmapFont(), Color.RED));
+        healthLabel.setFontScale(2f);
         manaLabel = new Label("Mana: " + mana, new Label.LabelStyle(new BitmapFont(), Color.CYAN));
+        manaLabel.setFontScale(2f);
     }
 
     @Override

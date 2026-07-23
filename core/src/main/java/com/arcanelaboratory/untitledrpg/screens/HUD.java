@@ -33,6 +33,7 @@ public class HUD {
         table.setFillParent(true);
 
         testLabel = new Label("HP: 100", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        testLabel.setFontScale(20f);
         table.add(testLabel).expandX().padTop(10);
 
         testImage = new Image(new Texture(new FileHandle("ui/testbar.png")));

@@ -3,7 +3,7 @@
     "enemyName": "placeholder",
     "regionName": "enemy_placeholder",
     "startingStats": {
-      "SPEED": 4.0,
+      "SPEED": 2.0,
       "HEALTH": 50
     },
     "sizeX": 1,

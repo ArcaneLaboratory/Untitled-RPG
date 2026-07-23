@@ -1,5 +1,6 @@
 package com.arcanelaboratory.untitledrpg.systems;
 
+import com.arcanelaboratory.untitledrpg.components.FacingComponent;
 import com.arcanelaboratory.untitledrpg.components.TextureComponent;
 import com.arcanelaboratory.untitledrpg.components.TransformComponent;
 import com.arcanelaboratory.untitledrpg.utils.GlobalConstants;
@@ -9,6 +10,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
@@ -21,6 +23,8 @@ public class RenderSystem extends SortedIteratingSystem {
     private OrthogonalTiledMapRenderer otmp;
     private ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
     private ComponentMapper<TextureComponent> txm = ComponentMapper.getFor(TextureComponent.class);
+    private ComponentMapper<FacingComponent> fm = ComponentMapper.getFor(FacingComponent.class);
+
 
     private static class ZComparator implements Comparator<Entity>{
         private ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
@@ -55,6 +59,12 @@ public class RenderSystem extends SortedIteratingSystem {
     protected void processEntity(Entity e, float delta){
         TransformComponent pos = tm.get(e);
         TextureComponent tex = txm.get(e);
+        FacingComponent facing = fm.get(e);
         batch.draw(tex.region, pos.x, pos.y, tex.region.getRegionWidth()*GlobalConstants.MAP_SCALE, tex.region.getRegionHeight()*GlobalConstants.MAP_SCALE);
+        if(tex.animation != null){
+            tex.animationTime += delta;
+            TextureRegion currentFrame = tex.animation.getKeyFrame(tex.animationTime, true);
+            batch.draw(currentFrame, pos.x, pos.y, currentFrame.getRegionWidth()*GlobalConstants.MAP_SCALE, currentFrame.getRegionHeight()*GlobalConstants.MAP_SCALE);
+        }
     }
 }

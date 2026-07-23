@@ -3,9 +3,11 @@ package com.arcanelaboratory.untitledrpg.screens;
 import com.arcanelaboratory.untitledrpg.Main;
 import com.arcanelaboratory.untitledrpg.entity.EntityFactory;
 import com.arcanelaboratory.untitledrpg.systems.*;
+import com.arcanelaboratory.untitledrpg.utils.AStarPathfinder;
 import com.arcanelaboratory.untitledrpg.utils.GlobalConstants;
 import com.arcanelaboratory.untitledrpg.utils.MapManager;
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -24,6 +26,7 @@ public class GameScreen implements Screen {
     private final EntityFactory FACTORY;
     private final MapManager MAP_MANAGER;
     private final TextureAtlas ATLAS;
+    private final AStarPathfinder ASTAR;
     //private final HUD HUD;
 
     private TiledMap map;
@@ -36,6 +39,7 @@ public class GameScreen implements Screen {
         this.VIEWPORT = new FitViewport(GlobalConstants.MAP_WIDTH_TILES, GlobalConstants.MAP_HEIGHT_TILES, CAMERA);
 
         this.MAP_MANAGER = new MapManager();
+        this.ASTAR = new AStarPathfinder(MAP_MANAGER);
         //this.HUD = new HUD(GAME.batch);
 
         this.ATLAS = GAME.assetManager.get("atlas/game_assets.atlas", TextureAtlas.class);
@@ -45,16 +49,24 @@ public class GameScreen implements Screen {
 
         MAP_MANAGER.loadCollisions(map);
 
-        ENGINE.addSystem(new PlayerControlSystem());
+        ENGINE.addSystem(new PlayerControlSystem(CAMERA, FACTORY));
         ENGINE.addSystem(new MovementSystem());
         ENGINE.addSystem(new CollisionSystem(MAP_MANAGER.getCollisionRects()));
         ENGINE.addSystem(new CameraSystem(CAMERA));
         ENGINE.addSystem(new RenderSystem(GAME.batch, CAMERA, otmp));
         ENGINE.addSystem(new DebugRenderSystem(CAMERA, MAP_MANAGER));
         ENGINE.addSystem(new HUDRenderSystem(GAME.batch));
+        ENGINE.addSystem(new CombatCollisionSystem());
+        ENGINE.addSystem(new CombatTimerSystem());
+        ENGINE.addSystem(new TimedLifeSystem(ENGINE));
+        ENGINE.addSystem(new DamageResolutionSystem(ENGINE));
+        ENGINE.addSystem(new InvulnerableFramesSystem());
 
-        ENGINE.addEntity(FACTORY.createPlayer("default",5, 5));
-        ENGINE.addEntity(FACTORY.createEnemy("placeholder", 10, 10));
+        Entity player = FACTORY.createPlayer("default",5, 5); //TODO: data driven
+        ENGINE.addEntity(player);
+        ENGINE.addSystem(new EnemyControlSystem(player, FACTORY, ASTAR));
+        ENGINE.addEntity(FACTORY.createEnemy("placeholder", 10, 10)); //TODO: dynamically load and place enemies
+        ENGINE.addEntity(FACTORY.createEnemy("placeholder", 10, 16));
     }
 
     @Override

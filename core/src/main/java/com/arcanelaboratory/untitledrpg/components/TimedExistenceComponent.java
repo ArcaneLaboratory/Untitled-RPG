@@ -6,8 +6,8 @@ import com.badlogic.gdx.utils.Pool;
 public class TimedExistenceComponent implements Component, Pool.Poolable {
     public float existenceTime;
 
-    public void init(float time){
-        existenceTime = time;
+    public TimedExistenceComponent (float time){
+        this.existenceTime = time;
     }
 
     @Override

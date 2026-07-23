@@ -1,13 +1,17 @@
 package com.arcanelaboratory.untitledrpg.entity;
 
 import com.arcanelaboratory.untitledrpg.components.*;
+import com.arcanelaboratory.untitledrpg.components.ai.EnemyAIComponent;
 import com.arcanelaboratory.untitledrpg.components.stats.StatType;
 import com.arcanelaboratory.untitledrpg.components.stats.StatsComponent;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import java.nio.file.attribute.FileOwnerAttributeView;
 
 public class EntityFactory {
     private Engine engine;
@@ -48,6 +52,10 @@ public class EntityFactory {
         HealthComponent hp = engine.createComponent(HealthComponent.class);
         hp.init(stats.baseStats.get(StatType.HEALTH));
         e.add(hp);
+        EnemyAIComponent ai = engine.createComponent(EnemyAIComponent.class);
+        e.add(ai);
+        CombatComponent combat = engine.createComponent(CombatComponent.class);
+        e.add(combat);
         return e;
     }
 
@@ -83,16 +91,38 @@ public class EntityFactory {
         mana.init(stats.baseStats.get(StatType.MAX_MANA));
         e.add(mana);
         e.add(engine.createComponent(PlayerComponent.class));
+        FacingComponent facing = engine.createComponent(FacingComponent.class);
+        e.add(facing);
+        CombatComponent combat = engine.createComponent(CombatComponent.class);
+        combat.attackDelay = stats.baseStats.get(StatType.ATTACK_SPEED);
+        e.add(combat);
         //engine.addEntity(e);
         return e;
     }
 
-    public Entity createSlash(float x, float y, float lifeTime){
+    public Entity createAttack(float x, float y, float lifeTime, Entity source, float damage, float angle){
         Entity e = engine.createEntity();
+        TextureComponent tex = engine.createComponent(TextureComponent.class);
+        tex.region = atlas.findRegion("blank-16");
+        tex.animation = new Animation<>(0.05f, atlas.findRegions("slice"), Animation.PlayMode.LOOP);
+        e.add(tex);
+        FacingComponent facing = engine.createComponent(FacingComponent.class);
+        facing.angle = angle;
+        e.add(facing);
         TransformComponent pos = engine.createComponent(TransformComponent.class);
         pos.x = x;
         pos.y = y;
         e.add(pos);
+        AttackComponent atk = engine.createComponent(AttackComponent.class);
+        atk.damage = damage;
+        atk.source = source;
+        e.add(atk);
+        CollisionComponent col = engine.createComponent(CollisionComponent.class);
+        col.bounds.set(x, y, 1, 1);
+        e.add(col);
+        TimedExistenceComponent timer = new TimedExistenceComponent(lifeTime);
+        e.add(timer);
+        engine.addEntity(e); //TODO: consistent way of adding entities
         return e;
     }
 }

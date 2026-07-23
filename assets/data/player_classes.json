@@ -1,12 +1,12 @@
 [
   {
     "className": "default",
-    "texturePath": "textures/player_placeholder.png",
     "regionName": "player_placeholder",
     "startingStats": {
       "HEALTH": 100.0,
       "SPEED": 5.0,
-      "MAX_MANA": 100.0
+      "MAX_MANA": 100.0,
+      "ATTACK_SPEED": 0.5
     }
 
   }
