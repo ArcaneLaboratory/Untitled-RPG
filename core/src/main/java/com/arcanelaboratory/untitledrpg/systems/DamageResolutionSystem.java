@@ -1,5 +1,6 @@
 package com.arcanelaboratory.untitledrpg.systems;
 
+import com.arcanelaboratory.untitledrpg.components.CombatComponent;
 import com.arcanelaboratory.untitledrpg.components.HealthComponent;
 import com.arcanelaboratory.untitledrpg.components.damage.DamageResolutionComponent;
 import com.badlogic.ashley.core.ComponentMapper;
@@ -27,6 +28,7 @@ public class DamageResolutionSystem extends IteratingSystem {
             health.current -= damage.damage;
             if(health.current <= 0){
                 engine.removeEntity(e); //TODO: more complicated death logic, perhaps in new system
+                damage.source.getComponent(CombatComponent.class).kills++;
             }
             e.remove(DamageResolutionComponent.class);
             health.invulnerableTimer = 0.2f;

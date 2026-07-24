@@ -37,7 +37,7 @@ public class CombatCollisionSystem extends IteratingSystem {
             Rectangle victimBounds = cm.get(victim).bounds;
             if(attackBounds.overlaps(victimBounds)){
                 attack.hitEntities.add(victim);
-                victim.add(new DamageResolutionComponent(attack.damage));
+                victim.add(new DamageResolutionComponent(attack.damage, attack.source));
             }
         }
     }

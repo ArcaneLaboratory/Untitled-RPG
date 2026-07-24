@@ -1,8 +1,6 @@
 package com.arcanelaboratory.untitledrpg.systems;
 
-import com.arcanelaboratory.untitledrpg.components.HealthComponent;
-import com.arcanelaboratory.untitledrpg.components.ManaComponent;
-import com.arcanelaboratory.untitledrpg.components.PlayerComponent;
+import com.arcanelaboratory.untitledrpg.components.*;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -28,12 +26,15 @@ public class HUDRenderSystem extends IteratingSystem {
     private Table table;
     private float health = 0f;
     private float mana = 0f;
+    private int kills = 0;
 
     private Label healthLabel;
     private Label manaLabel;
+    private Label killsLabel;
 
     private ComponentMapper<HealthComponent> hm = ComponentMapper.getFor(HealthComponent.class);
     private ComponentMapper<ManaComponent> mm = ComponentMapper.getFor(ManaComponent.class);
+    private ComponentMapper<CombatComponent> cm = ComponentMapper.getFor(CombatComponent.class);
 
     public HUDRenderSystem(SpriteBatch batch){
         super(Family.all(PlayerComponent.class, HealthComponent.class).get());
@@ -48,6 +49,8 @@ public class HUDRenderSystem extends IteratingSystem {
 
         healthLabel = new Label("HP: " + health, new Label.LabelStyle(new BitmapFont(), Color.RED));
         healthLabel.setFontScale(2f);
+        killsLabel = new Label("Mana: " + mana, new Label.LabelStyle(new BitmapFont(), Color.GOLD));
+        killsLabel.setFontScale(2f);
         manaLabel = new Label("Mana: " + mana, new Label.LabelStyle(new BitmapFont(), Color.CYAN));
         manaLabel.setFontScale(2f);
     }
@@ -59,8 +62,10 @@ public class HUDRenderSystem extends IteratingSystem {
 
         healthLabel.setText("HP: " + health);
         manaLabel.setText("Mana: " + mana);
+        killsLabel.setText("Kills: " + kills);
 
         table.add(healthLabel).expandX().padTop(10);
+        table.add(killsLabel).expandX().padTop(10);
         table.add(manaLabel).expandX().padTop(10);
 
 //        Image testImage = new Image(new Texture(new FileHandle("ui/testbar.png")));
@@ -78,5 +83,6 @@ public class HUDRenderSystem extends IteratingSystem {
     protected void processEntity(Entity e, float delta){
         health = hm.get(e).current;
         mana = mm.get(e).current;
+        kills = cm.get(e).kills;
     }
 }
