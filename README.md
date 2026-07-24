@@ -1,4 +1,49 @@
 # UntitledRPG
+The beginnings of a top-down 2D RPG game, built in Java using libgdx.
+
+## Instructions for Build and Use
+
+Steps to build and/or run the software:
+
+1. Install Java
+2. Clone repo from git
+3. Use `gradle build` to get dependencies
+4. Use `gradle lwjgl:run` to run the program or `gradle lwlgl:jar` to build a jar
+
+Instructions for using the software:
+
+1. Use WASD to move
+2. Move mouse to adjust facing direction
+3. Left click to attack enemies
+
+## Development Environment
+
+To recreate the development environment, you need the following software and/or libraries with the specified versions:
+
+* IntelliJ Community Edition
+* Java 21
+* libgdx and other dependency libraries (install through gradle)
+
+## Useful Websites to Learn More
+
+I found these websites useful in developing this software:
+
+* [libgdx Wiki](https://libgdx.com/wiki/)
+
+## Future Work
+
+The following items I plan to fix, improve, and/or add to this project in the future:
+
+* [ ] Additional Levels
+* [ ] Proper Inventory System
+* [ ] Better Enemy AI
+* [ ] Clean up spaghetti code
+
+#
+
+#### Original gdx-liftoff generated readme preserved below in case I forget how to do things... 
+
+## UntitledRPG
 
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
 
